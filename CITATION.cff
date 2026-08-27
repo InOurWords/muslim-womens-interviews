@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+title: "Muslim Women's Interviews (MWI)"
+message: "If you use this dataset, please cite it as below."
+type: dataset
+abstract: >-
+  De-identified qualitative interviews with 25 Muslim women in the United States,
+  Canada and France, released for use in large language model evaluation and social science research.
+authors:
+  - family-names: "Jeelani"
+    given-names: "Muzamillah"
+    affiliation: "International Islamic University of Malaysia"
+version: "1.0.0"
+date-released: "2026-08-27"
+license: CC-BY-4.0
+keywords:
+  - Muslim women
+  - hijab
+  - qualitative interviews
+  - LLM evaluation
+  - representation
+  - bias
+repository-code: "https://github.com/InOurWords/muslim-womens-interviews"
+# Uncomment once the Hugging Face dataset exists under this namespace:
+# url: "https://huggingface.co/datasets/InOurWords/muslim-womens-interviews"
+# Uncomment once Zenodo or OSF issues a DOI:
+# doi: "10.xxxx/xxxxx"
