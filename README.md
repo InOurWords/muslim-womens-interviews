@@ -45,8 +45,10 @@ ds.filter(lambda r: r["question_id"] == "hijab_journey")   # 27 answers, 24 part
 ds.filter(lambda r: r["country"] == "FR")                  # 73 rows, 3 participants
 ```
 
-The JSONL is generated from the Markdown by the parser below, so it is reproducible
-rather than a second source of truth — every answer matches its `.md` verbatim.
+`interviews.jsonl` is generated from the Markdown by the script in
+[Regenerating the JSONL](#regenerating-the-jsonl-from-the-markdown) below, so it is
+reproducible rather than a second source of truth — every answer matches its `.md`
+verbatim.
 
 Each file looks like this:
 
@@ -76,18 +78,28 @@ corpus) and `question_id` (the same slug wherever that question was asked, so yo
 group the answers to a given question).
 
 ```python
-import glob, re
+import glob, re, json
+
+PATTERN = r"## (.+?)\n+<!-- segment_id: (\S+) \| question_id: (\S+) -->\n+(.*?)(?=\n## |\Z)"
 
 def parse(path):
-    text = open(path, encoding="utf-8").read()
-    body = text.split("---", 2)[2]                       # strip YAML frontmatter
-    pat  = r"## (.+?)\n+<!-- segment_id: (\S+) \| question_id: (\S+) -->\n+(.*?)(?=\n## |\Z)"
-    return [{"question": q.strip(), "segment_id": sid, "question_id": qid,
+    head, body = open(path, encoding="utf-8").read().split("---", 2)[1:3]
+    front = dict(re.findall(r'^(\w+):\s*"?([^"\n]*)"?$', head, re.M))
+    return [{"segment_id": sid,
+             "participant_id": sid.split("_")[0],
+             "country": front.get("country"),
+             "question_id": qid,
+             "question": q.strip(),
              "answer": a.strip()}
-            for q, sid, qid, a in re.findall(pat, body, re.S)]
+            for q, sid, qid, a in re.findall(PATTERN, body, re.S)]
 
 rows = [r for p in sorted(glob.glob("interviews/MWI-*.md")) for r in parse(p)]
-len(rows)   # 585
+
+with open("interviews.jsonl", "w", encoding="utf-8", newline="\n") as fh:
+    for r in rows:
+        fh.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+len(rows)   # 585 — byte-identical to the published interviews.jsonl
 ```
 
 Nineteen questions recur across most interviews (`ordinary_day`, `hijab_journey`,
@@ -104,6 +116,15 @@ can join across participants.
 Retained by design: country names, Quebec, France, the US, Quebec legal and identity
 vocabulary (Bill 21/94/9, CAQ, CEGEP, laïcité, Québécois), ethnicity and nationality
 descriptors, and public figures cited as commentary.
+
+## Composition
+
+| | |
+|---|---|
+| Country | US 14 · Canada 8 · France 3 |
+
+The corpus deliberately contains disagreement. Any use that
+flattens these women into a single representative voice is a misuse.
 
 ## Before you use this
 
