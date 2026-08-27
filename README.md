@@ -105,17 +105,6 @@ Retained by design: country names, Quebec, France, the US, Quebec legal and iden
 vocabulary (Bill 21/94/9, CAQ, CEGEP, laïcité, Québécois), ethnicity and nationality
 descriptors, and public figures cited as commentary.
 
-## Composition
-
-| | |
-|---|---|
-| Country | US 14 · Canada 8 · France 3 |
-| Coming to Islam | 20 born Muslim · 5 converts |
-| Covering | 19 hijab · 1 niqab · 4 formerly niqab · 1 not publicly covering |
-
-That last row matters: the corpus deliberately contains disagreement. Any use that
-flattens these women into a single representative voice is a misuse.
-
 ## Before you use this
 
 Read `DATASHEET.md`. In short: n=25, purposively sampled partly through Muslim women's
